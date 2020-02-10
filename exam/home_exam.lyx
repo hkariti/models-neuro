@@ -1,0 +1,1482 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language american
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\topmargin 10pheight%
+\bottommargin 10pheight%
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Models in Neuroscience - Home Exam
+\end_layout
+
+\begin_layout Author
+Hagai Kariti - 301781613
+\end_layout
+
+\begin_layout Section
+General understanding
+\end_layout
+
+\begin_layout Enumerate
+The contraction bias is the phenomenon where participants, when presented
+ with two tones (or any other signal) at different times, tend to report
+ the first tone as higher if both tones are of low pitch and the second
+ tone as higher if both tones are of high pitch.
+ This can be seen in the participant's performance as shown in Figure 2
+ of the paper: the yellow area shows better performance since the contraction
+ magnifies the existing difference and helps participants make the correct
+ choice.
+ On the other hand, in the grey area the contraction shrinks this difference,
+ making the decision harder for participants.
+ The grey area therefore shows worse performance, even for the same absolute
+ difference in pitch compared to the yellow area.
+\end_layout
+
+\begin_layout Enumerate
+In the Bayesian model, the listener takes into account both the heard tone
+ and their internal expectation of that tone's pitch.
+ Since their internal representation of the tone is noisy, adding their
+ prior knowledge of the pitch's distribution will improve their performance
+ (and assuming their prior knowledge is correct, this is the MAP estimator
+ and so optimal).
+ However, this can cause contraction: if the prior distribution is unimodal,
+ all estimations will drift towards a single value, determined by the distributi
+on's median.
+ Moreover, the first tone suffers more contraction: since it's kept in memory
+ longer its representation is noisier, and so the prior knowledge's effect
+ is stronger on the final estimation making the drift larger.
+ This makes the first tone be perceived as of higher pitch when both tones
+ are low (drift up) and of lower pitch when both tones are high (drift down),
+ explaining the contraction bias.
+\end_layout
+
+\begin_layout Enumerate
+The recency effect is the fact that recent trials (and stimuli in general)
+ have a stronger effect on the participant current choice that trials that
+ are further in the past.
+ The Bayesian model does not capture it since there is no mention of past
+ trials except the prior distribution, which is stationary and so shouldn't
+ change from trial to trial.
+ The implicit-memory model does capture it, since its memory part is an
+ exponentially-weighted average of past stimuli.
+\end_layout
+
+\begin_layout Enumerate
+The JND is a measure of the internal noise of the signal's representation.
+ It captures the fact that participants have a certain degree of precision
+ below which they cannot differentiate between the two pitches (red area
+ close to diagonal in Figure 2 in the paper).
+ It does not capture the contraction bias.
+ The JND predicts a symmetry of successes/failures around zero pitch difference,
+ but this is inconsistent with the contraction bias and actual observed
+ data (grey/yellow areas in Figure 2).
+ The paper isn't clear about how to compute the JND.
+ It mentions that it's computed using a 'threshold of discrimination', however
+ it does not mention what this threshold is.
+ The Materials and Methods section says that the calculation is done by
+ averaging the difference in frequencies in the 'last 6 reversals', but
+ it's not clear what these reversals are.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+On the implicit-memory model and the linear-nonlinear model
+\end_layout
+
+\begin_layout Enumerate
+The implicit-memory model is used to model the decision process inside a
+ participant's mind for a series of trials.
+ For each trial, it compares the second observed pitch 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ with the exponentially-weighted average of the first pitch's noisy history,
+ marked 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ The model reports that the first tone is higher if 
+\begin_inset Formula $M>f_{2}$
+\end_inset
+
+ and otherwise that the second tone is higher.
+ The linear-nonlinear model is used to test whether a a given sequence of
+ trials and choices is affected by the recency effect.
+ The model calculates the probability of choosing 
+\begin_inset Formula $f_{1}>f_{2}$
+\end_inset
+
+ based on the recent history of pitches.
+ If the fitted weights are smaller for trials further in the past, it means
+ they have smaller effect on the result than more recent trials, i.e.
+ the decision is affected by the recency effect.
+ The two models are related by the recency effect: the linear-nonlinear
+ model detects this effect, and the implicit-memory model can explain it.
+\end_layout
+
+\begin_layout Enumerate
+The filter here consists of adding noise and memory of past values.
+ We'll show that neither have a significant effect on the result if added
+ to 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $n_{2}(t)$
+\end_inset
+
+ be the Gaussian noise with variance 
+\begin_inset Formula $\sigma_{2}^{2}$
+\end_inset
+
+ that is associated with encoding 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+.
+ Also assume that 
+\begin_inset Formula $n(t),n_{2}(t)$
+\end_inset
+
+ are independent.
+ If he model now compares using 
+\begin_inset Formula $M(t)>log(f_{2}(t))+n_{2}(t)$
+\end_inset
+
+, we get:
+\begin_inset Formula 
+\begin{align*}
+(1-\eta)(\log(f_{1}(t))+n_{1}(t))+\eta M(t) & >\log(f_{2}(t))+n_{2}(t)\\
+(1-\eta)(\log(f_{1}(t))+n_{1}(t)-\frac{1}{1-\eta}n_{2}(t))+\eta M(t) & >\log(f_{2}(t))\\
+(1-\eta)(\log(f_{1}(t))+\tilde{n}(t))+\eta M(t) & >\log(f_{2}(t))
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Where 
+\begin_inset Formula $\tilde{n}(t)$
+\end_inset
+
+ is a Gaussian noise with variance 
+\begin_inset Formula $\tilde{\sigma}^{2}=\sigma^{2}+\frac{1}{(1-\eta)^{2}}\sigma_{2}^{2}$
+\end_inset
+
+.
+ We got that adding noise to 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ is equivalent to adding more noise to 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ instead.
+ Since we don't assume anything about the amount of noise in 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+, adding noise to 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ is redundant.
+\end_layout
+
+\begin_layout Enumerate
+Looking at Figure 3 in the paper, we can see that the weights for past values
+ of 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ are much smaller than the weight for the current value.
+ This means that past values of 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ don't affect the participants' decision, and adding memory to 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ will make little difference.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Implementation of the implicit-memory model
+\end_layout
+
+\begin_layout Subsection
+Running with noise and no memory
+\end_layout
+
+\begin_layout Standard
+Setting 
+\begin_inset Formula $\eta=0$
+\end_inset
+
+ means past trials have no effect, and each trial is independent and is
+ a simple comparison between a noisy 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+.
+ Therefore we expect to see no contraction bias, and the graph should be
+ symmetric relative to the diagonal.
+ Because the comparison is noisy we expect mistakes to occur, but they should
+ be mostly close to the diagonal since the noise variance is small relative
+ to the frequency range.
+ We observe all of these in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance-of-implicit-memory"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig1.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Performance-of-implicit-memory"
+
+\end_inset
+
+Performance of implicit-memory model when 
+\begin_inset Formula $\sigma=0.3,\eta=0$
+\end_inset
+
+.
+ Grey is correct, orange is incorrect.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Psychometric plot
+\end_layout
+
+\begin_layout Standard
+The psychometric plot in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Psychometric-curve-for"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows that performance depends only on the difference between the frequencies,
+ and is the same when either 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ or 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+ is larger.
+ This corresponds to what we saw in the scatter plot: performance improves
+ as we get further from the diagonal and is symmetric relative to the diagonal.
+ Since the scatter plot shows no contraction bias, only the distance from
+ the diagonal affects performance and so this psychometric plot summarizes
+ the scatter plot.
+ 
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig2.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Psychometric-curve-for"
+
+\end_inset
+
+Psychometric plot for the memory-implicit model when 
+\begin_inset Formula $\sigma=0.3,\eta=0$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Plot-of-"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the fitting result of 
+\begin_inset Formula $\Phi$
+\end_inset
+
+, and we can see it looks like a noise-free version of Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Psychometric-curve-for"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The fit results in 
+\begin_inset Formula $\sigma_{f}=0.298\approx0.3=\sigma$
+\end_inset
+
+.
+ This result makes sense.
+ First, we see that the frequency difference and noise are in the correct
+ relation: as noise gets stronger the performance drops, and as it weakens
+ the performance improves.
+ Second, it matches our previous observations.
+ In the scatter plot in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance-of-implicit-memory"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ we saw that two parameters affect performance: the difference between the
+ frequencies (performance gets better the further we are from the diagonal),
+ and the internal noise (the rate of improvement).
+ Since the fitted function describes the psychometric plot, and since that
+ plot summarizes the scatter plot, it makes sense that the second parameter
+ in the fitted function is the noise.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig3.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Plot-of-"
+
+\end_inset
+
+Plot of 
+\begin_inset Formula $\Phi(\frac{d}{\sigma_{f}})$
+\end_inset
+
+ after fitting over the original.
+ 
+\begin_inset Formula $\sigma_{f}\approx0.3$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Running with memory and no noise
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Implicit-memory-model-results."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the results when setting 
+\begin_inset Formula $\eta$
+\end_inset
+
+ to 0.4 and removing noise.
+ Looking at the scatter plot, the first thing we notice is that it's no
+ longer symmetric.
+ Specifically, the areas 
+\begin_inset Formula $f_{1}>f_{2}>1000$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{1}<f_{2}<1000$
+\end_inset
+
+ show a significant increase in errors.
+ This points to a contraction bias, which is caused by the non-zero value
+ of 
+\begin_inset Formula $\eta$
+\end_inset
+
+.
+ As said in in the previous section, this non-zero value makes the model
+ average previously seen values of 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ (with an exponentially decreasing weight) when calculating 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ Since the weight decreases exponentially, only the very recent values of
+ 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ have a significant effect.
+ For large values of 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ there's a high probability that these previous values were lower, causing
+ 
+\begin_inset Formula $M<f_{1}$
+\end_inset
+
+.
+ For small values of 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ the reverse happens and 
+\begin_inset Formula $M>f_{1}$
+\end_inset
+
+.
+ This is exactly the contraction that causes the bias.
+ Another thing we can notice in the plot is the very low level of errors
+ outside of the contraction bias.
+ For comparison, Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance-of-implicit-memory"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ had errors even far from the diagonal, whereas here we have in some places
+ zero errors right at the diagonal.
+ This is the result of 
+\begin_inset Formula $\sigma=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Looking at the psychometric plot, we see that it no longer summarizes the
+ scatter plot.
+ For example, it predicts a 50% of errors at the diagonal coming from either
+ direction, but we see that this isn't the case: In the upper right area,
+ one side of the diagonal has 100% errors and the other has 0% errors; in
+ the lower left area this situation is completely reversed.
+ Moreover, I believe the psychometric plot can't be expected to summarize
+ the scatter plot.
+ Since the scatter plot changes at different places along the diagonal and
+ also at different distances from the diagonal, one cannot summarize it
+ using a plot that depends on a single parameter (the distance from the
+ diagonal in this case).
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig4.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Implicit-memory-model-results."
+
+\end_inset
+
+Implicit-memory model results.
+ 
+\begin_inset Formula $\sigma=0,\eta=0.4$
+\end_inset
+
+.
+ In the scatter plot grey is correct and orange incorrect.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Running with both memory and noise
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Implicit-memory-model-results"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the results with added noise.
+ The scatter plot now looks like a combination of 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Performance-of-implicit-memory"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Implicit-memory-model-results."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+a: the noise adds errors in all areas of the graph symmetrically according
+ to the distance from the diagonal, and the memory weight causes the asymmetry.
+ The psychometric plot is wider than in Figure
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Implicit-memory-model-results."
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+a and looks similar to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Psychometric-curve-for"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, probably capturing the effect of the noise.
+ When looking at the quantitative data the contraction bias is clear: areas
+ 1 and 4 show much worse performance.
+ Areas 3 and 6 show improved performance, which is probably because they
+ stretch furthest from the diagonal.
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "50col%"
+special "none"
+height "50theight%"
+height_special "none"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig5.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "29col%"
+special "none"
+height "50theight%"
+height_special "none"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset VSpace 100baselineskip%
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Area
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Correct Percent
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+54%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+85%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+93%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+59%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+82%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+91%
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Implicit-memory-model-results"
+
+\end_inset
+
+Implicit-memory model results for 
+\begin_inset Formula $\sigma=0.3,\eta=0.4$
+\end_inset
+
+.
+ (a) Scatter plot with numbered areas, grey is correct and orange incorrect.
+ Performance for each area is in the table on the right.
+ (b) Psychometric plot.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Biased conditions
+\end_layout
+
+\begin_layout Enumerate
+In the second experiment, the two frequencies' distributions were no longer
+ independent.
+ In the Bias+ condition, frequency pairs were sampled more from areas that
+ show improved performance due to contraction bias (areas 2 and 5 in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Implicit-memory-model-results"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+a).
+ In the Bias- condition, they were sampled more from areas that show impaired
+ performance due to contraction bias (areas 1 and 4).
+ This was done to test whether the contraction bias always exists (i.e.
+ participants always used prior knowledge) or only when it improved overall
+ performance.
+ The Bayesian model predicts that the contraction bias will appear in both
+ cases, because if the participants know the joint prior distribution then
+ using it should always improve performance.
+ The implicit-memory model predict that using prior knowledge will be beneficial
+ in the Bias+ condition but harmful in the Bias- condition, and so the contracti
+on bias should not appear in the latter.
+\end_layout
+
+\begin_layout Enumerate
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Reconstructed-scatter-plot"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the reconstructed scatter plot.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig6.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Reconstructed-scatter-plot"
+
+\end_inset
+
+Reconstructed scatter plot for (a) Bias+ and (b) Bias- conditions.
+ Grey is correct, orange is incorrect.
+ Each area also shows the percentage of correct decisions.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Result-from-implicit-memory"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ shows the result of the implicit-memory model run on the given data.
+ We can see that for the Bias+ condition, the model agrees with the data
+ near the diagonal, especially in the Bias- regions.
+ The two graph disagree further from the diagonal, and this is very apparent
+ in the Bias+ and neutral regions.
+ For the Bias- condition, we can see that the model shows more mistakes
+ near the diagonal than the real data.
+ Here too there is better agreement in the Bias+ regions and more disagreement
+ in the Bias- regions.
+\begin_inset Float figure
+placement t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig7.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Result-from-implicit-memory"
+
+\end_inset
+
+Result from implicit-memory model for the (a) Bias+ and (b) Bias- conditions.
+ Grey is correct, orange is incorrect.
+ Each area also shows the percentage of correct decisions.
+ 
+\begin_inset Formula $\sigma=0.1,\eta=0.2$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Both graph show the effect of 
+\begin_inset Formula $M$
+\end_inset
+
+'s slow change compared to 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $M(t)$
+\end_inset
+
+ variable, being the average of the recent 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ values, will be closer to 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+'s recent values.
+ However, whether or not this will result in a mistake is affected by 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+'s distribution, which is different between the two conditions as shown
+ in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Histogram-of-"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The Bias+ distribution is unimodal and so most of the time 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+'s values are not very high or very low, and underestimation of higher values
+ and overestimation of lower values result in mistakes.
+ However, the Bias- is bimodal, and so 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ can take higher and lower values, which makes the decision less sensitive
+ to contractions.
+ This can be seen by the mean absolute difference between 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{2}$
+\end_inset
+
+: in the Bias+ condition, this mean difference is 
+\begin_inset Formula $\sim45Hz$
+\end_inset
+
+, whereas in the Bias- condition this difference is 
+\begin_inset Formula $\sim116Hz$
+\end_inset
+
+, making contraction not as significant.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 1
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename fig8.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Histogram-of-"
+
+\end_inset
+
+Histogram of 
+\begin_inset Formula $f_{1}$
+\end_inset
+
+ values for the Bias+ and Bias- conditions.
+ We can see that the distribution is bimodal in the Bias- case.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
